@@ -36,6 +36,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/global_config.cmake)
 # macro definition located at "CMake/global_config.cmake"
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/include_os.cmake)
 
+
 # set os specific configuration flags
 # macro definition located at "CMake/<OS>_config.cmake"
 os_set_flags()
@@ -45,9 +46,9 @@ os_set_flags()
 global_set_flags()
 
 if(BUILD_SHARED_LIBS)
-    add_library(${LRS_TARGET} SHARED "")
+add_library(${LRS_TARGET} SHARED "")
 else()
-    add_library(${LRS_TARGET} STATIC "")
+add_library(${LRS_TARGET} STATIC "")
 endif()
 
 config_cxx_flags()
@@ -74,28 +75,30 @@ include(CMake/install_config.cmake)
 
 add_subdirectory(wrappers)
 if ( ( BUILD_EXAMPLES OR BUILD_PC_STITCHING ) AND BUILD_GLSL_EXTENSIONS )
-    find_package(glfw3 3.3 QUIET)
-    if(NOT TARGET glfw)
+find_package(glfw3 3.3 QUIET)
+if(NOT TARGET glfw)
         message(STATUS "GLFW 3.3 not found; using internal version")
         set(GLFW_INSTALL ON CACHE BOOL "" FORCE)
         add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third-party/glfw)
-    endif()
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/gl)
-endif()
-
-if(BUILD_EXAMPLES)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tools)
-elseif(BUILD_TOOLS)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tools)
-endif()
-
+        endif()
+        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/gl)
+        endif()
+        
+        if(BUILD_EXAMPLES)
+        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples)
+        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tools)
+        elseif(BUILD_TOOLS)
+        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tools)
+        endif()
+        
 if(BUILD_UNIT_TESTS OR BUILD_LEGACY_LIVE_TEST)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/unit-tests)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/unit-tests)
 endif()
 
 if(IMPORT_DEPTH_CAM_FW)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/common/fw)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/common/fw)
 endif()
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/embedd_udev_rules.cmake)
+
+# message(STATUS "${CMAKE_CURRENT_BINARY_DIR} : ${PROJECT_BINARY_DIR}")
