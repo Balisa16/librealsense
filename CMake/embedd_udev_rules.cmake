@@ -1,8 +1,8 @@
 file(READ "config/99-realsense-libusb.rules" contents HEX)
 
-message(STATUS "Embedding udev rules on ${PROJECT_BINARY_DIR}/udev-rules.h")
+message(STATUS "Embedding udev rules on ${CMAKE_BINARY_DIR}/udev-rules.h")
 
-set(UDEV_HEADER "${PROJECT_BINARY_DIR}/udev-rules.h")
+set(UDEV_HEADER "${CMAKE_BINARY_DIR}/udev-rules.h")
 
 file(WRITE "${UDEV_HEADER}" "#ifndef __UDEV_RULES_H__\n")
 file(APPEND "${UDEV_HEADER}" "#define __UDEV_RULES_H__\n")
