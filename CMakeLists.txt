@@ -8,8 +8,8 @@ project( ${LRS_TARGET} LANGUAGES CXX C )
 set(REPO_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${REPO_ROOT})
 
-include(CMake/lrs_options.cmake)
-include(CMake/connectivity_check.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/lrs_options.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/connectivity_check.cmake)
 #Deprecation message, should be removed in future releases
 if(${FORCE_LIBUVC} OR ${FORCE_WINUSB_UVC} OR ${ANDROID_USB_HOST_UVC})
     MESSAGE(DEPRECATION "FORCE_LIBUVC, FORCE_WINUSB_UVC and ANDROID_USB_HOST_UVC are deprecated, use FORCE_RSUSB_BACKEND instead")
@@ -27,14 +27,14 @@ if (BUILD_PC_STITCHING AND NOT BUILD_GLSL_EXTENSIONS)
     SET(BUILD_GLSL_EXTENSIONS ON)
 endif()
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/CMake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 
 # include librealsense general configuration
-include(CMake/global_config.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/global_config.cmake)
 
 # include os specific macros
 # macro definition located at "CMake/global_config.cmake"
-include(CMake/include_os.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/include_os.cmake)
 
 # set os specific configuration flags
 # macro definition located at "CMake/<OS>_config.cmake"
@@ -55,10 +55,10 @@ config_cxx_flags()
 # set library version
 set_target_properties(${LRS_TARGET} PROPERTIES VERSION ${REALSENSE_VERSION_STRING} SOVERSION "${REALSENSE_VERSION_MAJOR}.${REALSENSE_VERSION_MINOR}")
 
-include(include/CMakeLists.txt)
-include(src/CMakeLists.txt)
-include(third-party/CMakeLists.txt)
-include(common/utilities/CMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/include/CMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/src/CMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/third-party/CMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/common/utilities/CMakeLists.txt)
 
 target_link_libraries( ${LRS_TARGET} PUBLIC rsutils )
 
@@ -78,24 +78,24 @@ if ( ( BUILD_EXAMPLES OR BUILD_PC_STITCHING ) AND BUILD_GLSL_EXTENSIONS )
     if(NOT TARGET glfw)
         message(STATUS "GLFW 3.3 not found; using internal version")
         set(GLFW_INSTALL ON CACHE BOOL "" FORCE)
-        add_subdirectory(third-party/glfw)
+        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third-party/glfw)
     endif()
-    add_subdirectory(src/gl)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/gl)
 endif()
 
 if(BUILD_EXAMPLES)
-    add_subdirectory(examples)
-    add_subdirectory(tools)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tools)
 elseif(BUILD_TOOLS)
-    add_subdirectory(tools)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tools)
 endif()
 
 if(BUILD_UNIT_TESTS OR BUILD_LEGACY_LIVE_TEST)
-    add_subdirectory(unit-tests)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/unit-tests)
 endif()
 
 if(IMPORT_DEPTH_CAM_FW)
-    add_subdirectory(common/fw)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/common/fw)
 endif()
 
-include(CMake/embedd_udev_rules.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/embedd_udev_rules.cmake)
