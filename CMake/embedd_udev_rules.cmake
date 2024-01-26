@@ -1,5 +1,7 @@
 file(READ "config/99-realsense-libusb.rules" contents HEX)
 
+message(STATUS "Embedding udev rules on ${PROJECT_BINARY_DIR}/udev-rules.h")
+
 set(UDEV_HEADER "${PROJECT_BINARY_DIR}/udev-rules.h")
 
 file(WRITE "${UDEV_HEADER}" "#ifndef __UDEV_RULES_H__\n")
